@@ -1,4 +1,4 @@
-First, set up the [input system](ProjectSetup/README.md) with Direction and LookDirection Vector3 properties. The following is for a 3rd person controller. 
+First, set up the [input system](../ProjectSetup/README.md) with Direction and LookDirection Vector3 properties. The following is for a 3rd person controller. 
 
 ## Basic Player Movement
 Calculating movement direction is easy if you just want to use the player transform:
