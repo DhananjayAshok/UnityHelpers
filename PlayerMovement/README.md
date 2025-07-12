@@ -70,3 +70,24 @@ Note, for all of these, if you want to use world momentum v.s. local momentum yo
 ```
 true_momentum = useLocalMomentum ? tr.localToWorldMatrix * momentum : momentum;
 ```
+
+## Jumping
+To the start function of your playercontroller, add a listener to the [JumpEvent](../) method,
+```
+void Start() {
+    input.EnablePlayerActions();
+    input.JumpEvent += HandleJumpKeyInput;
+}
+void HandleJumpKeyInput(bool isButtonPressed) {
+    if (!jumpKeyIsPressed && isButtonPressed) {
+        jumpKeyWasPressed = true;
+    }
+
+    if (jumpKeyIsPressed && !isButtonPressed) {
+        jumpKeyWasLetGo = true;
+        jumpInputIsLocked = false;
+    }
+    
+    jumpKeyIsPressed = isButtonPressed;
+}
+```
