@@ -73,7 +73,6 @@ horizontalMomentum = Vector3.MoveTowards(horizontalMomentum, Vector3.zero, frict
 Recombine the directions:
 ```
 momentum = horizontalMomentum + verticalMomentum;
-
 ```
 Note, for all of these, if you want to use world momentum v.s. local momentum you can add:
 ```
