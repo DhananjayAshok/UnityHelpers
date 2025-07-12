@@ -64,6 +64,8 @@ Recombine the directions:
 ```
 momentum = horizontalMomentum + verticalMomentum;
 ```
+
+Do not use damping here; you are essentially handling the damping with friction.  
 Note, for all of these, if you want to use world momentum v.s. local momentum you can add:
 ```
 true_momentum = useLocalMomentum ? tr.localToWorldMatrix * momentum : momentum;
