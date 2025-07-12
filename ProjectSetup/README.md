@@ -1,7 +1,4 @@
-This section contains set up scripts
-
-
-# Input System:
+## Input System:
 
 1. First, on your player, add a PlayerInput component.
 2. Then hit create actions and set up the actions as you see fit. Each of these actions (e.g. Move) will become an implementable interface in your management script. Generate a C# script file for this, and name it X (Avoid names like PlayerInput, this will cause clash)
