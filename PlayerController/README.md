@@ -14,7 +14,7 @@ Vector3 playerForward = Vector3.ProjectOnPlane(cameraTransform.forward, transfor
 We can then use the input system (input) direction property to determine the final direction and give a velocity based on the state we are in (for example grounded v.s. not grounded)
 ```
 Vector2 inputDirection = input.moveDirection; 
-float inputMagnitude = inputDirection.magnitude; // You can accentuate sensitivity to small input using kernel functions like x^2 here
+float inputMagnitude = inputDirection.magnitude; // You can accentuate sensitivity to small input using kernel functions like x^2 or e^x here
 Vector3 moveDirection = (playerRight * inputDirection.x + playerForward * inputDirection.y).normalized * inputMagnitude;
 Vector3 velocity = isGrounded? moveDirection * groundedSpeed : moveDirection * airSpeed;
 ```
