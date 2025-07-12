@@ -43,7 +43,7 @@ momentum = velocity;
 
 ## Better Momentum
 
-First, get a breakdown of the current momentum into vertical and horizontal components using (https://github.com/adammyhre/Advanced-Player-Controller/blob/master/Assets/_Project/Scripts/PlayerController/VectorMath.cs)[Vector Math]
+First, get a breakdown of the current momentum into vertical and horizontal components using [Vector Math](https://github.com/adammyhre/Advanced-Player-Controller/blob/master/Assets/_Project/Scripts/PlayerController/VectorMath.cs)
 ```
 /// <summary>
 /// Extracts and returns the component of a vector that is in the direction of a given vector.
