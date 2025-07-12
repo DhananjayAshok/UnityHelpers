@@ -25,8 +25,10 @@ void Setup() {
     rb.useGravity = false;
 }
 public void SetVelocity(Vector3 velocity) => rb.linearVelocity = velocity;
-
-SetVelocity(velocity); 
+void FixedUpdate()
+{
+    SetVelocity(newVelocity);
+}
 ```
 ## Basic Momentum based movement
 
