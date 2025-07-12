@@ -72,12 +72,23 @@ true_momentum = useLocalMomentum ? tr.localToWorldMatrix * momentum : momentum;
 ```
 
 ## Jumping
-To the start function of your playercontroller, add a listener to the [JumpEvent](../) method,
+To the start function of your playercontroller, add a listener to the [JumpEvent](../ProjectSetup/README.md) method
 ```
+bool jumpKeyIsPressed;    // Tracks whether the jump key is currently being held down by the player
+bool jumpKeyWasPressed;   // Indicates if the jump key was pressed since the last reset, used to detect jump initiation
+bool jumpKeyWasLetGo;     // Indicates if the jump key was released since it was last pressed, used to detect when to stop jumping
+bool jumpInputIsLocked;   // Prevents jump initiation when true, used to ensure only one jump action per press
+
 void Start() {
     input.EnablePlayerActions();
     input.JumpEvent += HandleJumpKeyInput;
 }
+
+void ResetJumpKeys() { // call this at the end of every fixed update
+    jumpKeyWasLetGo = false;
+    jumpKeyWasPressed = false;
+}
+
 void HandleJumpKeyInput(bool isButtonPressed) {
     if (!jumpKeyIsPressed && isButtonPressed) {
         jumpKeyWasPressed = true;
@@ -91,3 +102,9 @@ void HandleJumpKeyInput(bool isButtonPressed) {
     jumpKeyIsPressed = isButtonPressed;
 }
 ```
+This releases a jump lock when we let go of the jump button and allows us to jump again. To add this into the motion, first check whether we are in a jumping state (logic based on grounded + inputs etc.) and if so then override (dont add) the vertical momentum:
+```
+verticalMomentum = transform.up * jumpSpeed;
+momentum = horizontalMomentum + verticalMomentum;
+```
+
