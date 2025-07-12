@@ -35,7 +35,7 @@ We can add lingering momentum to make movement more realistic, specifically when
 Track the momentum of the player in a Vector3 object, and use it to add to the final velocity. 
 ```
 Vector3 momentum; 
-velocity = velocity + dampingFactor * momentum;
+velocity = velocity + (1-dampingFactor) * momentum;
 momentum = velocity; 
 ```
 
