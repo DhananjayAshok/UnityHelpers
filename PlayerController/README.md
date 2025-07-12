@@ -65,7 +65,7 @@ verticalMomentum += directionToGravityCentre * (gravity * Time.deltaTime); // wh
 Incorporate a state-based horizontal friction:
 ```
 float friction = isGrounded ? groundFriction : airFriction;
-horizontalMomentum = Vector3.MoveTowards(horizontalMomentum, Vector3.zero, friction * Time.deltaTime); \\ MoveTowards makes sure we don't overshoot into negatives
+horizontalMomentum = Vector3.MoveTowards(horizontalMomentum, Vector3.zero, friction * Time.deltaTime); // MoveTowards makes sure we don't overshoot into negatives
 ```
 Recombine the directions:
 ```
