@@ -13,7 +13,9 @@ Vector3 playerForward = Vector3.ProjectOnPlane(cameraTransform.forward, transfor
 ```
 We can then use the input system (input) direction property to determine the final direction and give a velocity based on the state we are in (for example grounded v.s. not grounded)
 ```
-Vector3 moveDirection = (playerRight * input.Direction.x + playerForward * input.Direction.y).normalized; // norm might not be needed
+Vector2 inputDirection = input.moveDirection; 
+float inputMagnitude = inputDirection.magnitude;
+Vector3 moveDirection = (playerRight * inputDirection.x + playerForward * inputDirection.y).normalized * inputMagnitude;
 Vector3 velocity = isGrounded? moveDirection * groundedSpeed : moveDirection * airSpeed;
 ```
 With a rigidbody based character controller, we can create motion using:
