@@ -34,10 +34,11 @@ void FixedUpdate()
 
 We can add lingering momentum to make movement more realistic, specifically when jumping through the air (if we can't move much in mid-air)
 
-Track the momentum of the player in a Vector3 object, and use it to add to the final velocity. 
+Track the momentum of the player in a Vector3 object, and use it to add to the final velocity. Clamp the magnitude to make sure it doesn't blow up on you. 
 ```
 Vector3 momentum; 
 velocity = velocity + (1-dampingFactor) * momentum;
+velocity = Vector3.ClampMagnitude(velocity, maximumSpeed); // Clamp the velocity to the maximum speed
 momentum = velocity; 
 ```
 
