@@ -34,7 +34,7 @@ void FixedUpdate()
 ```
 ## Basic Momentum based movement
 
-We can add lingering momentum to make movement more realistic, specifically when jumping through the air (if we can't move much in mid-air)
+We can add lingering momentum to make movement more realistic, specifically when jumping through the air
 
 Track the momentum of the player in a Vector3 object, and use it to add to the final velocity. Clamp the magnitude to make sure it doesn't blow up on you. 
 ```
@@ -46,22 +46,12 @@ momentum = velocity;
 
 ## Better Momentum
 
-First, get a breakdown of the current momentum into vertical and horizontal components using [Vector Math](https://github.com/adammyhre/Advanced-Player-Controller/blob/master/Assets/_Project/Scripts/PlayerController/VectorMath.cs)
+You could get a breakdown of the current momentum into vertical and horizontal components using [Vector Math](https://github.com/adammyhre/Advanced-Player-Controller/blob/master/Assets/_Project/Scripts/PlayerController/VectorMath.cs), or just set up one variable for each type of momentum
 ```
-/// <summary>
-/// Extracts and returns the component of a vector that is in the direction of a given vector.
-/// </summary>
-/// <param name="vector">The vector from which to extract the component.</param>
-/// <param name="direction">The direction vector to extract along.</param>
-/// <returns>The component of the vector in the direction of the given vector.</returns>
-public static Vector3 ExtractDotVector(Vector3 vector, Vector3 direction) {
-    direction.Normalize();
-    return direction * Vector3.Dot(vector, direction);
-}
-Vector3 verticalMomentum = VectorMath.ExtractDotVector(momentum, tr.up);
-Vector3 horizontalMomentum = momentum - verticalMomentum;
+Vector3 verticalMomentum;
+Vector3 horizontalMomentum;
 ```
-Then incorporate gravity (public variable float) into the vertical momentum (set it to 0 if you are grounded and the momentum is downwards)
+Then incorporate gravity (public variable float) into the vertical momentum (set it to 0 if you are grounded and momentum is downwards)
 ```
 verticalMomentum += directionToGravityCentre * (gravity * Time.deltaTime); // where directionToGravityCentre is Vector3(0, -1, 0) for world and -transform.up for local gravity.
 ```
