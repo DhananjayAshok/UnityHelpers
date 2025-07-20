@@ -71,6 +71,36 @@ Note, for all of these, if you want to use world momentum v.s. local momentum yo
 true_momentum = useLocalMomentum ? tr.localToWorldMatrix * momentum : momentum;
 ```
 
+## Alternative to Momentum: Lag step
+
+I don't think I like momentum actually, so I did the following:
+1. Remove all momentum, speed is constant depending on the state
+2. If jumping, then save the direction of the jump before leaving the ground and continue with the movement velocity from prev state (based on sprint vs walk) and dampen if you want
+
+I want there to be a little extra step to simulate momentum if the player suddenly stops after a sprint, so I count a number of frames and extend movement:
+```
+ Vector3 newVelocity = currentVelocityInput * GetCurrentSpeed();
+// nLagFramesRemaining set based on state and reset elsewhere
+ if (currentVelocityInput == Vector3.zero && previousVelocityInput != Vector3.zero && nLagFramesRemaining > 0 && movementState != MovementState.Focusing)
+ {
+     isLagging = true;
+     Vector3 lagVelocity = GetCurrentSpeed() * previousVelocityInput * (1 - getLagDampening());
+     if (lagVelocity.magnitude < forceDampCutMag)
+     {
+         lagVelocity = Vector3.zero; // If the lag velocity is too small, set it to zero
+         nLagFramesRemaining = 0; // Reset lag frames if the velocity is negligible
+         previousVelocityInput = Vector3.zero; // Reset previous input velocity
+         movementState = MovementState.Still;
+     }
+     else
+     {
+         nLagFramesRemaining--;
+         previousVelocityInput = previousVelocityInput * (1 - getLagDampening()); // Reduce previous input velocity by dampening factor based on the state your in (running vs walking)
+     }
+     SetVelocity(lagVelocity);
+ }
+```
+
 ## Ground Checking
 To check for the ground, we send out a downward Raycast from the centre of the player that stops right below their feet and store the result. First we properly set up the layermask in preparation for the cast
 ```
