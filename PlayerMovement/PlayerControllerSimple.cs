@@ -30,31 +30,30 @@ public class PlayerController : MonoBehaviour
 
     // Player movement settings
     public float walkSpeed = 5f; // Speed of the player movement
-    public float sprintSpeed = 8f; // Speed of the player when sprinting
+    public float sprintSpeed = 7.5f; // Speed of the player when sprinting
     public float focusSpeed = 2.5f; // Speed of the player when guarding
     public float slideSpeed = 7f; // Speed of the player when sliding
-    public float jumpSpeed = 5f; // Speed of the player when jumping
-    public float jumpHorizontalSpeedDecay = 0.5f; // Resistance applied to horizontal velocity when jumping
-    public float gravity = 1f; // Gravity applied to the player
-    public float dodgeSpeed = 14f; // Speed of the player when dodging
-    public float dodgeTime = 0.125f; // Duration of the dodge action
-    public float jumpTime = 0.85f; // Duration of the jump action
+    public float jumpSpeed = 10f; // Speed of the player when jumping
+    public float jumpHorizontalSpeedDecay = 0.02f; // Resistance applied to horizontal velocity when jumping
+    public float gravity = 20f; // Gravity applied to the player
+    public float dodgeSpeed = 13f; // Speed of the player when dodging
+    public float dodgeTime = 0.15f; // Duration of the dodge action
 
     // Spherecast settings
-    public float sphereCastRadius = 0.5f; // Radius of the sphere cast for ground detection
-    public float sphereCastCenterOffset = 0.5f; // Offset from the center of the player for the sphere cast
+    public float sphereCastRadius = 0.01f; // Radius of the sphere cast for ground detection
+    public float sphereCastCenterOffset = 0f; // Offset from the center of the player for the sphere cast based on the player's height
 
     // Lag step
     [Range(0, 50)]
-    public int walkLagFrames = 3; // Number of frames to continue motion after input stops
+    public int walkLagFrames = 10; // Number of frames to continue motion after input stops
     [Range(0, 50)]
-    public int sprintLagFrames = 5;
+    public int sprintLagFrames = 20;
     [Range(0, 50)]
     public int focusLagFrames = 0;
     [Range(0f, 1f)]
     public float walkLagDampening = 0.5f; // Factor to reduce velocity each frame during lag
     [Range(0f, 1f)]
-    public float sprintLagDampening = 0.3f;
+    public float sprintLagDampening = 0.1f;
     [Range(0f, 1f)]
     public float focusLagDampening = 0.2f;
     public float forceDampCutMag = 0.1f; // Magnitude below which the force is considered negligible
