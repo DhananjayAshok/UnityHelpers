@@ -140,38 +140,34 @@ isGrounded = HasDetectedHit();
 ## Jumping
 To the start function of your playercontroller, add a listener to the [JumpEvent](../ProjectSetup/README.md) method
 ```
-bool jumpKeyIsPressed;    // Tracks whether the jump key is currently being held down by the player
-bool jumpKeyWasPressed;   // Indicates if the jump key was pressed since the last reset, used to detect jump initiation
-bool jumpKeyWasLetGo;     // Indicates if the jump key was released since it was last pressed, used to detect when to stop jumping
-bool jumpInputIsLocked;   // Prevents jump initiation when true, used to ensure only one jump action per press
+input.JumpEvent += HandleJump; // in Start
 
-void Start() {
-    input.EnablePlayerActions();
-    input.JumpEvent += HandleJumpKeyInput;
-}
-
-void ResetJumpKeys() { // call this at the end of every fixed update
-    jumpKeyWasLetGo = false;
-    jumpKeyWasPressed = false;
-}
-
-void HandleJumpKeyInput(bool isButtonPressed) {
-    if (!jumpKeyIsPressed && isButtonPressed) {
-        jumpKeyWasPressed = true;
+void HandleJump()
+{
+    if (groundState == GroundState.Grounded)
+    {
+        SetMoveDirection();
+        horizontalJump = GetCurrentSpeed() * currentVelocityInput;
+        if (horizontalJump.magnitude < forceDampCutMag)
+        {
+            horizontalJump = Vector3.zero; // If the jump velocity is too small, set it to zero
+        }
+        groundState = GroundState.Jumping; // Set the ground state to jumping
+        verticalJump = transform.up * jumpSpeed;
+        SetVelocity(verticalJump + horizontalJump);
     }
-
-    if (jumpKeyIsPressed && !isButtonPressed) {
-        jumpKeyWasLetGo = true;
-        jumpInputIsLocked = false;
-    }
-    
-    jumpKeyIsPressed = isButtonPressed;
 }
-```
-This releases a jump lock when we let go of the jump button and allows us to jump again. To add this into the motion, first check whether we are in a jumping state (logic based on grounded + inputs etc.) and if so then override (dont add) the vertical momentum:
-```
-verticalMomentum = transform.up * jumpSpeed;
-momentum = horizontalMomentum + verticalMomentum;
+
+// In FixedUpdate after checking for ground
+if(groundState == GroundState.Jumping || groundState == GroundState.Falling)
+        {
+            horizontalJump = horizontalJump * (1 - jumpHorizontalSpeedDecay); // Decay horizontal jump speed
+            verticalJump -= Vector3.up * gravity * Time.fixedDeltaTime; // Apply gravity to vertical jump speed
+            if (verticalJump.y <= 0) {
+                groundState = GroundState.Falling; // If the vertical speed is negative, the player is falling
+            }
+            SetVelocity(horizontalJump + verticalJump); // Set the velocity to the jump speed
+        }
 ```
 
 ## Sliding 
