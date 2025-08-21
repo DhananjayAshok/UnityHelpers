@@ -32,6 +32,26 @@ void FixedUpdate()
     SetVelocity(newVelocity);
 }
 ```
+If you want to rotate the player so they always face their direction of movement:
+
+```
+public void RotateCharacter()
+    {
+        Vector3 movementVelocity = velocity; // The 
+        if (movementVelocity.magnitude > 0.01f)
+        {
+            // 1. Get the direction vector
+            Vector3 directionToLook = new Vector3(movementVelocity.x, 0, movementVelocity.z).normalized;
+            
+            // 2. Calculate the target rotation
+            Quaternion targetRotation = Quaternion.LookRotation(directionToLook, transform.up);
+
+            // 3. Smoothly rotate the character towards the target rotation
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+        }
+    }
+```
+
 ## Basic Momentum based movement
 
 We can add lingering momentum to make movement more realistic, specifically when jumping through the air
